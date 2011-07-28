@@ -36,7 +36,7 @@ include $(VRUIPACKAGEROOT)/BuildRoot/Packages
 # Root directory for the software installation
 # Note: This must a different directory than the one that contains this
 # makefile!
-INSTALLDIR = $(HOME)/Vrui-1.0
+INSTALLDIR = /opt/local/Vrui-1.0
 
 # Set this to 1 if Vrui executables and shared libraries shall contain
 # links to any shared libraries they link to. This will relieve a user
@@ -132,7 +132,7 @@ endif
 # Set this to 1 if the operating system supports the input abstraction
 # layer. If this is set to 1 and the input abstraction is not supported,
 # Joystick.cpp will generate compiler errors.
-VRDEVICES_USE_INPUT_ABSTRACTION = 0
+VRDEVICES_USE_INPUT_ABSTRACTION = 1
 
 # Set this to 1 if the Linux input.h header file has the required
 # structure definitions (usually on newer Linux versions). If this is
