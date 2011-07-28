@@ -94,6 +94,8 @@ Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 
 #include <Vrui/Vrui.Internal.h>
 
+using GLTransformationWrappers::glMultMatrix; // PO'Leary
+
 namespace Misc {
 
 /***********************************************************************

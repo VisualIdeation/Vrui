@@ -53,6 +53,8 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite
 Overloaded versions of matrix calls:
 ***********************************/
 
+namespace GLTransformationWrappers { // PO'Leary
+
 template <class ScalarParam>
 METHODPREFIX
 void
@@ -193,7 +195,7 @@ glLoadMatrix(
 	temp[15]=ScalarParam(1);
 	
 	/* Upload the temporary array: */
-	glLoadMatrix(temp);
+	GLMatrixTemplates::glLoadMatrix(temp); // PO'Leary
 	}
 
 template <class ScalarParam>
@@ -216,7 +218,7 @@ glMultMatrix(
 	temp[15]=ScalarParam(1);
 	
 	/* Upload the temporary array: */
-	glMultMatrix(temp);
+	GLMatrixTemplates::glMultMatrix(temp); // PO'Leary
 	}
 
 template <class ScalarParam>
@@ -234,7 +236,7 @@ glLoadMatrix(
 			*tPtr=m(i,j);
 	
 	/* Upload the temporary array: */
-	glLoadMatrix(temp);
+	GLMatrixTemplates::glLoadMatrix(temp); // PO'Leary
 	}
 
 template <class ScalarParam>
@@ -252,8 +254,10 @@ glMultMatrix(
 			*tPtr=m(i,j);
 	
 	/* Upload the temporary array: */
-	glMultMatrix(temp);
+	GLMatrixTemplates::glMultMatrix(temp); // PO'Leary
 	}
+
+} // PO'Leary
 
 template <class ScalarParam>
 METHODPREFIX
@@ -271,6 +275,8 @@ glGetMatrix(
 /********************************************************
 Force instantiation of all standard GLGeometry functions:
 ********************************************************/
+
+namespace GLTransformationWrappers { // PO'Leary
 
 template void glLoadMatrix(const Geometry::TranslationTransformation<float,3>&);
 template void glLoadMatrix(const Geometry::TranslationTransformation<double,3>&);
@@ -311,6 +317,8 @@ template void glLoadMatrix(const Geometry::ProjectiveTransformation<float,3>&);
 template void glLoadMatrix(const Geometry::ProjectiveTransformation<double,3>&);
 template void glMultMatrix(const Geometry::ProjectiveTransformation<float,3>&);
 template void glMultMatrix(const Geometry::ProjectiveTransformation<double,3>&);
+
+} // PO'Leary
 
 template Geometry::ProjectiveTransformation<float,3> glGetMatrix<float>(GLMatrixEnums::Pname pname);
 template Geometry::ProjectiveTransformation<double,3> glGetMatrix<double>(GLMatrixEnums::Pname pname);

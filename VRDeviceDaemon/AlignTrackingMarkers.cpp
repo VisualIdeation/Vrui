@@ -65,6 +65,8 @@ Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 
 #include "ReadOptiTrackMarkerFile.h"
 
+using GLTransformationWrappers::glMultMatrix; // PO'Leary
+
 class AlignTrackingMarkers:public Vrui::Application
 	{
 	/* Embedded classes: */

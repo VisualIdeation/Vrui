@@ -33,6 +33,9 @@ Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 
 #include <Vrui/Tools/DaisyWheelTool.h>
 
+using GLTransformationWrappers::glLoadMatrix; // PO'Leary
+using GLTransformationWrappers::glMultMatrix; // PO'Leary
+
 namespace Vrui {
 
 /**************************************
