@@ -38,7 +38,7 @@ OBJDIRBASE = o
 BINDIRBASE = bin
 
 # Set resource directory:
-RESOURCEDIR = share/VruiExamplePrograms
+RESOURCEDIR = share
 
 # Set up additional flags for the C++ compiler:
 CFLAGS = 
