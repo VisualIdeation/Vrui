@@ -412,6 +412,18 @@ size_t TCPSocket::read(void* buffer,size_t count)
 
 void TCPSocket::blockingRead(void* buffer,size_t count)
 	{
+        // William Sherman's Fix
+	struct timeval	block_delay;
+	fd_set		fds;
+
+	block_delay.tv_sec = 15;	// Yes, that's 15 whole seconds
+	block_delay.tv_usec = 0;	// doesn't really matter
+
+	FD_ZERO(&fds);
+	FD_SET(socketFd, &fds);
+
+	select(socketFd+1, &fds, NULL, NULL, &block_delay);
+
 	char* byteBuffer=reinterpret_cast<char*>(buffer);
 	while(count>0)
 		{
@@ -432,7 +444,7 @@ void TCPSocket::blockingRead(void* buffer,size_t count)
 			else
 				{
 				/* Consider this a fatal error: */
-				Misc::throwStdErr("TCPSocket: Fatal error during read");
+				Misc::throwStdErr("TCPSocket: Fatal error during read %d %d",numBytesRead,errno);
 				}
 			}
 		else
@@ -463,7 +475,7 @@ void TCPSocket::blockingWrite(const void* buffer,size_t count)
 			else
 				{
 				/* Consider this a fatal error: */
-				Misc::throwStdErr("TCPSocket: Fatal error during write");
+				Misc::throwStdErr("TCPSocket: Fatal error during write %d %d",numBytesWritten,errno);
 				}
 			}
 		else
