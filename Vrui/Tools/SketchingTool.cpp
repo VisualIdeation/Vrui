@@ -397,8 +397,9 @@ void SketchingTool::loadCurvesOKCallback(GLMotif::FileSelectionDialog::OKCallbac
 			Misc::throwStdErr("SketchingTool::loadCurvesOKCallback: File %s is not a curve file",cbData->selectedFileName.c_str());
 		
 		/* Read all curves: */
+		int return_value;
 		unsigned int numCurves;
-		fscanf(cf,"%u",&numCurves);
+		return_value = fscanf(cf,"%u",&numCurves);
 		for(unsigned int curveIndex=0;curveIndex<numCurves;++curveIndex)
 			{
 			/* Create a new curve: */
@@ -407,7 +408,7 @@ void SketchingTool::loadCurvesOKCallback(GLMotif::FileSelectionDialog::OKCallbac
 			/* Read the curve's line width and color: */
 			float lineWidth;
 			unsigned int color[3];
-			fscanf(cf,"%f, %u %u %u",&lineWidth,&color[0],&color[1],&color[2]);
+			return_value = fscanf(cf,"%f, %u %u %u",&lineWidth,&color[0],&color[1],&color[2]);
 			c->lineWidth=lineWidth;
 			for(int i=0;i<3;++i)
 				c->color[i]=Curve::Color::Scalar(color[i]);
@@ -415,12 +416,12 @@ void SketchingTool::loadCurvesOKCallback(GLMotif::FileSelectionDialog::OKCallbac
 			
 			/* Read the curve's control points: */
 			unsigned int numControlPoints;
-			fscanf(cf,"%u",&numControlPoints);
+			return_value = fscanf(cf,"%u",&numControlPoints);
 			for(unsigned int controlPointIndex=0;controlPointIndex<numControlPoints;++controlPointIndex)
 				{
 				double t;
 				double pos[3];
-				fscanf(cf,"%lf, %lf %lf %lf",&t,&pos[0],&pos[1],&pos[2]);
+				return_value = fscanf(cf,"%lf, %lf %lf %lf",&t,&pos[0],&pos[1],&pos[2]);
 				Curve::ControlPoint cp;
 				for(int i=0;i<3;++i)
 					cp.pos[i]=Scalar(pos[i]);
