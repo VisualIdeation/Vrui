@@ -194,7 +194,7 @@ void VRDeviceManager::setTrackerState(int trackerIndex,const Vrui::VRDeviceState
 		{
 		/* Update tracker report mask: */
 		trackerReportMask|=1<<trackerIndex;
-		if(trackerReportMask==fullTrackerReportMask)
+		if(trackerReportMask!=0x0) /* William Sherman - Causes a broadcast when any tracker has new data */
 			{
 			/* Wake up all client threads in stream mode: */
 			trackerUpdateCompleteCond->broadcast();
