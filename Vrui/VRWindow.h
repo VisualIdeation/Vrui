@@ -100,6 +100,14 @@ class VRWindow:public GLWindow
 	
 	GLFont* showFpsFont; // Font to render the current update frequency
 	bool showFps; // Flag if the window is to display the current update frequency
+	GLFont* showCreditFont; // Font to render the credit information
+	bool showCredit; // Flag if the window is to display the credit information
+	bool showCreditTitle; // Flag if the window is to display the title credit information
+	std::string creditTitle; // Title for credit display
+	bool showCreditData; // Flag if the window is to display the data credit information
+	std::string creditData; // Data credit information for credit display
+	bool showCreditGraphics; // Flag if the window is to display the graphics credit information
+	std::string creditGraphics; // Graphics credit information for credit display
 	bool protectScreens; // Flag if the window's screen(s) need to be protected from nearby input devices
 	bool trackToolKillZone; // Flag if the tool manager's tool kill zone should follow the window when moved/resized
 	Scalar toolKillZonePos[2]; // Position of tool kill zone in relative window coordinates (0.0-1.0 in both directions)
@@ -180,6 +188,9 @@ class VRWindow:public GLWindow
 		}
 	void requestScreenshot(const char* sScreenshotImageFileName); // Asks the window to save its contents to the given image file on the next render pass
 	void draw(void); // Redraws the window's contents
+	void setCreditTitle(const char* _creditTitle); // Sets the title credit information
+	void setCreditData(const char* _creditData); // Sets the data credit information
+	void setCreditGraphics(const char* _creditGraphics); // Sets the graphics credit information
 	};
 
 }

@@ -433,6 +433,49 @@ void VRWindow::render(const GLWindow::WindowPos& viewportPos,int screenIndex,con
 		glMatrixMode(GL_MODELVIEW);
 		glPopMatrix();
 		}
+	if(showCredit)
+		{
+		/* Set OpenGL matrices to pixel-based: */
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		glOrtho(0,viewportPos.size[0],0,viewportPos.size[1],0,1);
+		float fx = viewportPos.size[0];
+		float fy = viewportPos.size[1];
+
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
+
+		/* Print the current frame time: */
+		char buffer[80];
+		float cy = 2.0f;
+		glDisable(GL_LIGHTING);
+		if (showCreditTitle)
+		{
+		snprintf(buffer,sizeof(buffer),"Title: %s",(creditTitle).c_str());
+		showCreditFont->drawString(GLFont::Vector(showCreditFont->getCharacterWidth()*5.0f,fy-cy*showCreditFont->getTextHeight(),0.0f),buffer);
+		cy+=1.0f;
+		}
+		if (showCreditData)
+		{
+		snprintf(buffer,sizeof(buffer),"Data: %s",(creditData).c_str());
+		showCreditFont->drawString(GLFont::Vector(showCreditFont->getCharacterWidth()*5.0f,fy-cy*showCreditFont->getTextHeight(),0.0f),buffer);
+		cy+=1.0f;
+		}
+		if (showCreditData)
+		{
+		snprintf(buffer,sizeof(buffer),"Graphics: %s",(creditGraphics).c_str());
+		showCreditFont->drawString(GLFont::Vector(showCreditFont->getCharacterWidth()*5.0f,fy-cy*showCreditFont->getTextHeight(),0.0f),buffer);
+		}
+		glEnable(GL_LIGHTING);
+
+		/* Reset the OpenGL matrices: */
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();
+		}
 	}
 
 bool VRWindow::calcMousePos(int x,int y,Scalar mousePos[2]) const
@@ -494,6 +537,11 @@ VRWindow::VRWindow(const char* windowName,const Misc::ConfigurationFileSection& 
 	 asInterzigShader(0),asQuadSizeUniformIndex(-1),
 	 showFpsFont(0),
 	 showFps(configFileSection.retrieveValue<bool>("./showFps",false)),
+	 showCreditFont(0),
+	 showCredit(configFileSection.retrieveValue<bool>("./showCredit",false)),
+	 showCreditTitle(false),
+	 showCreditData(false),
+	 showCreditGraphics(false),
 	 protectScreens(configFileSection.retrieveValue<bool>("./protectScreens",true)),
 	 trackToolKillZone(false),
 	 dirty(true),
@@ -854,6 +902,26 @@ VRWindow::VRWindow(const char* windowName,const Misc::ConfigurationFileSection& 
 		showFpsFont->setAntialiasing(false);
 		// showFpsFont->createCharTextures(*contextData);
 		}
+	if(showCredit)
+		{
+		/* Load font: */
+		showCreditFont=loadFont(configFileSection.retrieveString("./showCreditFontName","HelveticaMediumUpright").c_str());
+		GLfloat textHeight=showCreditFont->getTextPixelHeight()-1.0f;
+		if(textHeight>16.0f)
+			textHeight=16.0f;
+		showCreditFont->setTextHeight(textHeight);
+		GLFont::Color bg=getBackgroundColor();
+		showCreditFont->setBackgroundColor(bg);
+		GLFont::Color fg;
+		for(int i=0;i<3;++i)
+			fg[i]=1.0f-bg[i];
+		fg[3]=bg[3];
+		showCreditFont->setForegroundColor(fg);
+		showCreditFont->setHAlignment(GLFont::Left);
+		showCreditFont->setVAlignment(GLFont::Bottom);
+		showCreditFont->setAntialiasing(false);
+		// showCreditFont->createCharTextures(*contextData);
+		}
 	
 	#ifdef VRWINDOW_USE_SWAPGROUPS
 	/* Join a swap group if requested: */
@@ -905,6 +973,7 @@ VRWindow::~VRWindow(void)
 		glDeleteTextures(1,&asViewMapTextureID);
 		}
 	delete showFpsFont;
+	delete showCreditFont;
 	GLContextData::makeCurrent(0);
 	delete contextData;
 	GLExtensionManager::makeCurrent(0);
@@ -1767,4 +1836,21 @@ void VRWindow::draw(void)
 	dirty=false;
 	}
 
+void VRWindow::setCreditTitle(const char* _creditTitle)
+	{
+	showCreditTitle = true;
+	creditTitle=_creditTitle;
+	}
+
+void VRWindow::setCreditData(const char* _creditData)
+	{
+	showCreditData = true;
+	creditData=_creditData;
+	}
+
+void VRWindow::setCreditGraphics(const char* _creditGraphics)
+	{
+	showCreditGraphics = true;
+	creditGraphics=_creditGraphics;
+	}
 }
