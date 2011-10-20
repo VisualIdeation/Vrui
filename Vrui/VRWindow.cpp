@@ -448,7 +448,7 @@ void VRWindow::render(const GLWindow::WindowPos& viewportPos,int screenIndex,con
 		glLoadIdentity();
 
 		/* Print the current frame time: */
-		char buffer[80];
+		char buffer[160];
 		float cy = 2.0f;
 		glDisable(GL_LIGHTING);
 		if (showCreditTitle)
